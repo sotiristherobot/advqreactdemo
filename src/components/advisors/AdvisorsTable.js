@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles/index';
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import FilterListIcon from '@material-ui/icons/FilterList';
+import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -25,6 +26,7 @@ class AdvisorsTable extends Component {
                 reviews: 'asc',
                 status: 'asc'
             },
+            // I have simulated this with POSTMAN, however I kept this here, as a backup
             advisors: [
                 {
                     id: '0',
@@ -116,15 +118,26 @@ class AdvisorsTable extends Component {
         });
     }
 
-    componentWillMount() {
-        /* At this point a GET request will be made which will fetch the data
-            My preference is towards axios. If the request is succesfull then
-            the state will be set.
+    /**
+     * Fetches advisors from the endpoint
+     * @returns {[]any}
+     */
+    fetchAdvisors() {
+        return axios.get('https://be26ac49-7bfe-4455-bf43-c6c0ef539c97.mock.pstmn.io/advisors');
+    }
 
-             axios.get('url').then( response => {
-                this.setState(data)
-             }).catch(err => // handle error here)
-        * */
+    /**
+     * Use component will mount so the request starts early enough
+    */
+    componentWillMount() {
+        // this is a good case for testing . It's important for the application to test that the user will be able
+        // to see something on his screen.
+        this.fetchAdvisors().then(s => {
+            this.setState({
+                ...this.state,
+                advisors: s.data.data
+            });
+        }).catch(err => console.log('There was an error'));
     }
 
     render() {
