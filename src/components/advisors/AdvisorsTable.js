@@ -49,6 +49,8 @@ class AdvisorsTable extends Component {
                     status: 'offline'
                 }
             ],
+            filteredAdvisors: undefined,
+            filter: false,
             tableHeadCells: [
                 {
                     id: '0',
@@ -70,6 +72,7 @@ class AdvisorsTable extends Component {
         };
         this.onHeaderItemClick = this.onHeaderItemClick.bind(this);
         this.sortTable = this.sortTable.bind(this);
+        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
     }
 
     /**
@@ -93,9 +96,10 @@ class AdvisorsTable extends Component {
             }
             return 0;
         }
+        const arrayToSort = this.state.filter? this.state.filteredAdvisors : this.state.advisors;
 
-        return direction === 'dec'? this.state.advisors.sort(sorter) :
-            this.state.advisors.sort(sorter).reverse();
+        return direction === 'dec'? arrayToSort.sort(sorter) :
+            arrayToSort.sort(sorter).reverse();
     }
 
     /**
@@ -115,6 +119,30 @@ class AdvisorsTable extends Component {
             orderBy: orderByClone,
             advisors: this.sortTable(sortProperty, direction)
         });
+    }
+
+    /**
+     * Click handler for the filter icon. At the momment is hardcoded to filter only based on advisors who
+     * speak German
+    */
+    onFilterButtonClick() {
+        let {filter} = this.state;
+
+        filter = !filter;
+
+        if (filter) {
+            this.setState({
+                ...this.state,
+                filteredAdvisors: this.state.advisors.filter(v => v.language.includes('German')),
+                filter: true
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                filteredAdvisors: undefined,
+                filter: false
+            });
+        }
     }
 
     /**
@@ -145,7 +173,7 @@ class AdvisorsTable extends Component {
             <Paper className={classes.root}>
                 {/*This is included for more advanced filtering, etc filter for specific languages*/}
                 <Tooltip title="Filter list">
-                    <IconButton aria-label="Filter list">
+                    <IconButton aria-label="Filter list" onClick={this.onFilterButtonClick}>
                         <FilterListIcon />
                     </IconButton>
                 </Tooltip>
@@ -163,15 +191,25 @@ class AdvisorsTable extends Component {
                     </TableHead>
                     <TableBody>
                         {
-                            this.state.advisors.map(advisor => (
-                                <Advisor
-                                    key={advisor.id}
-                                    name={advisor.name}
-                                    language={advisor.language}
-                                    reviews={advisor.reviews}
-                                    status={advisor.status}
-                                />
-                            ))
+                            this.state.filter?
+                                this.state.filteredAdvisors.map(advisor => (
+                                    <Advisor
+                                        key={advisor.id}
+                                        name={advisor.name}
+                                        language={advisor.language}
+                                        reviews={advisor.reviews}
+                                        status={advisor.status}
+                                    />
+                                 )):
+                                this.state.advisors.map(advisor => (
+                                    <Advisor
+                                        key={advisor.id}
+                                        name={advisor.name}
+                                        language={advisor.language}
+                                        reviews={advisor.reviews}
+                                        status={advisor.status}
+                                    />
+                                ))
                         }
                     </TableBody>
                 </Table>
