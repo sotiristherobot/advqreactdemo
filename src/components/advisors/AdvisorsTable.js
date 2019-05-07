@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Paper, Table, TableHead, TableBody, TableCell, TableRow} from "@material-ui/core";
+import Advisor from './Advisor';
 
 import { withStyles } from '@material-ui/core/styles/index';
 import Tooltip from "@material-ui/core/Tooltip";
@@ -140,22 +141,13 @@ class AdvisorsTable extends Component {
                     <TableBody>
                         {
                             this.state.advisors.map(advisor => (
-                                <TableRow
+                                <Advisor
                                     key={advisor.id}
-                                >
-                                    <TableCell>
-                                        {advisor.name}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {advisor.language}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {advisor.reviews}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {advisor.status}
-                                    </TableCell>
-                                </TableRow>
+                                    name={advisor.name}
+                                    language={advisor.language}
+                                    reviews={advisor.reviews}
+                                    status={advisor.status}
+                                />
                             ))
                         }
                     </TableBody>
