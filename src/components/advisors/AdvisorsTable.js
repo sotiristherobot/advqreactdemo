@@ -10,9 +10,8 @@ import axios from 'axios';
 
 const styles = theme => ({
     root: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
-        overflowX: 'auto'
+        margin: theme.spacing.unit * 3,
+        overflowX: 'auto',
     }
 });
 
@@ -150,7 +149,7 @@ class AdvisorsTable extends Component {
                         <FilterListIcon />
                     </IconButton>
                 </Tooltip>
-                <Table className={classes.table}>
+                <Table>
                     <TableHead>
                             <TableRow>
                                 {
