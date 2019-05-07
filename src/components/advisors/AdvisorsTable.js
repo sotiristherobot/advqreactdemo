@@ -116,6 +116,17 @@ class AdvisorsTable extends Component {
         });
     }
 
+    componentWillMount() {
+        /* At this point a GET request will be made which will fetch the data
+            My preference is towards axios. If the request is succesfull then
+            the state will be set.
+
+             axios.get('url').then( response => {
+                this.setState(data)
+             }).catch(err => // handle error here)
+        * */
+    }
+
     render() {
         const { classes } = this.props;
         return (
