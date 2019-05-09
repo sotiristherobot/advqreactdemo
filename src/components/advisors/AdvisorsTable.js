@@ -131,19 +131,14 @@ class AdvisorsTable extends Component {
 
         filter = !filter;
 
-        if (filter) {
-            this.setState({
-                ...this.state,
-                filteredAdvisors: this.state.advisors.filter(v => v.language.includes('German')),
-                filter: true
-            });
-        } else {
-            this.setState({
-                ...this.state,
-                filteredAdvisors: undefined,
-                filter: false
-            });
-        }
+        this.setState({
+            ...this.state,
+            filteredAdvisors: filter &&
+                this.state.advisors.filter(v => v.language.includes('German')) ||
+                undefined,
+            filter
+        });
+
     }
 
     /**
