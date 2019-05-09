@@ -150,9 +150,9 @@ class AdvisorsTable extends Component {
     }
 
     /**
-     * Use component will mount so the request starts early enough
+     * Use component did mount so the request starts early enough
     */
-    componentWillMount() {
+    componentDidMount() {
         // this is a good case for testing . It's important for the application to test that the user will be able
         // to see something on his screen.
         this.fetchAdvisors().then(s => {
