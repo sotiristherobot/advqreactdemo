@@ -73,6 +73,7 @@ class AdvisorsTable extends Component {
         this.onHeaderItemClick = this.onHeaderItemClick.bind(this);
         this.sortTable = this.sortTable.bind(this);
         this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
+        this.renderAdvisors = this.renderAdvisors.bind(this);
     }
 
     /**
@@ -167,6 +168,22 @@ class AdvisorsTable extends Component {
         }).catch(err => console.log('There was an error'));
     }
 
+    /**
+     * Creates and returns an array of <Advisors />
+     * @returns {[]advisors}
+    */
+    renderAdvisors(advisors) {
+        return advisors.map(advisor => (
+            <Advisor
+                key={advisor.id}
+                name={advisor.name}
+                language={advisor.language}
+                reviews={advisor.reviews}
+                status={advisor.status}
+            />
+        ));
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -192,24 +209,8 @@ class AdvisorsTable extends Component {
                     <TableBody>
                         {
                             this.state.filter?
-                                this.state.filteredAdvisors.map(advisor => (
-                                    <Advisor
-                                        key={advisor.id}
-                                        name={advisor.name}
-                                        language={advisor.language}
-                                        reviews={advisor.reviews}
-                                        status={advisor.status}
-                                    />
-                                 )):
-                                this.state.advisors.map(advisor => (
-                                    <Advisor
-                                        key={advisor.id}
-                                        name={advisor.name}
-                                        language={advisor.language}
-                                        reviews={advisor.reviews}
-                                        status={advisor.status}
-                                    />
-                                ))
+                                this.renderAdvisors(this.state.filteredAdvisors):
+                                this.renderAdvisors(this.state.advisors)
                         }
                     </TableBody>
                 </Table>
